@@ -4121,7 +4121,7 @@ def ctc_label_dense_to_sparse(labels, label_lengths):
     return tf.SparseTensor(tf.to_int64(indices), vals_sparse, tf.to_int64(label_shape))
 
 
-def ctc_batch_cost(y_true, y_pred, input_length, label_length):
+def ctc_batch_cost(y_true, y_pred, input_length, label_length, **kwargs):
     """Runs CTC loss algorithm on each batch element.
 
     # Arguments
@@ -4146,7 +4146,8 @@ def ctc_batch_cost(y_true, y_pred, input_length, label_length):
 
     return tf.expand_dims(ctc.ctc_loss(inputs=y_pred,
                                        labels=sparse_labels,
-                                       sequence_length=input_length), 1)
+                                       sequence_length=input_length,
+                                       **kwargs), 1)
 
 
 def ctc_decode(y_pred, input_length, greedy=True, beam_width=100,
